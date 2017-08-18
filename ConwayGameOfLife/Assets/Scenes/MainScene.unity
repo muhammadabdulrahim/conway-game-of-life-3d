@@ -135,85 +135,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7310a4f544d74e27969cb8731222390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conwayCube: {fileID: 1246725039213480, guid: 73272c7ddb8937e4ea2b4c0bb5cddade, type: 2}
-  gridWidth: 64
-  gridHeight: 64
-  autoProgress: 1
-  autoProgressionTime: 0.1
-  useRandomStart: 0
-  initialLivingGridItems:
-  - x: 1
-    y: 5
-  - x: 2
-    y: 5
-  - x: 1
-    y: 6
-  - x: 2
-    y: 6
-  - x: 18
-    y: 6
-  - x: 11
-    y: 5
-  - x: 11
-    y: 6
-  - x: 11
-    y: 7
-  - x: 12
-    y: 4
-  - x: 12
-    y: 8
-  - x: 13
-    y: 3
-  - x: 13
-    y: 9
-  - x: 14
-    y: 3
-  - x: 14
-    y: 9
-  - x: 15
-    y: 6
-  - x: 16
-    y: 4
-  - x: 16
-    y: 8
-  - x: 17
-    y: 5
-  - x: 17
-    y: 6
-  - x: 17
-    y: 7
-  - x: 21
-    y: 3
-  - x: 21
-    y: 4
-  - x: 21
-    y: 5
-  - x: 22
-    y: 3
-  - x: 22
-    y: 4
-  - x: 22
-    y: 5
-  - x: 23
-    y: 2
-  - x: 23
-    y: 6
-  - x: 25
-    y: 1
-  - x: 25
-    y: 2
-  - x: 25
-    y: 6
-  - x: 25
-    y: 7
-  - x: 35
-    y: 3
-  - x: 35
-    y: 4
-  - x: 36
-    y: 3
-  - x: 36
-    y: 4
+  conwayObject: {fileID: 1508864229960884, guid: 3540f789c88cd2e4692104e7bde0655a,
+    type: 2}
+  gridWidth: 8
+  gridHeight: 8
+  gridDepth: 8
+  autoProgress: 0
+  autoProgressionTime: 1
 --- !u!4 &652260931
 Transform:
   m_ObjectHideFlags: 0

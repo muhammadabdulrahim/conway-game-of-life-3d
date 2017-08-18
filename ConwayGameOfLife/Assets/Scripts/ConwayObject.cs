@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConwayCube : MonoBehaviour
+public class ConwayObject : MonoBehaviour
 {
 	public Material livingMaterial, deadMaterial;
 	private MeshRenderer meshRenderer;
