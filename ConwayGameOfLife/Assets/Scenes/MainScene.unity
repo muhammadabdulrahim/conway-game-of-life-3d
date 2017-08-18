@@ -140,8 +140,12 @@ MonoBehaviour:
   gridWidth: 8
   gridHeight: 8
   gridDepth: 8
-  autoProgress: 0
+  autoProgress: 1
   autoProgressionTime: 1
+  toLiveMin: 4
+  toLiveMax: 13
+  toReviveMin: 5
+  toReviveMax: 8
 --- !u!4 &652260931
 Transform:
   m_ObjectHideFlags: 0

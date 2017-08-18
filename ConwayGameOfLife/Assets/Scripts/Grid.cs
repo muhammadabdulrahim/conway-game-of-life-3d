@@ -16,6 +16,7 @@ public class Grid : MonoBehaviour
 	public bool autoProgress;
 	[Range(0.01f,5f)]
 	public float autoProgressionTime = 1;
+	public uint toLiveMin, toLiveMax, toReviveMin, toReviveMax;
 	private float deltaTime;
 
 	private bool[,,] grid;
@@ -145,15 +146,15 @@ public class Grid : MonoBehaviour
 					uint neighborsAlive = GetLivingNeighborsCount(x, y, z);
 					if (isAlive)
 					{
-						//	TODO: Do these numbers make sense?
-						if (neighborsAlive == 2 || neighborsAlive == 3)
+						//	TOOD: Fix sizing issue here
+						if (neighborsAlive >= toLiveMin && neighborsAlive <= toLiveMax)
 							gridItemsToLive.Add(new GridItem(x, y, z));
 						else
 							gridItemsToKill.Add(new GridItem(x, y, z));
 					}
 					else
 					{
-						if (neighborsAlive == 3)
+						if (neighborsAlive >= toReviveMin && neighborsAlive <= toReviveMax)
 							gridItemsToLive.Add(new GridItem(x, y, z));
 						else
 							gridItemsToKill.Add(new GridItem(x, y, z));
