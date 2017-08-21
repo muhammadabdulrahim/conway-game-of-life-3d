@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+	//	Definition for the maximum number of neighbors possible
+	public const uint MAX_NEIGHBORS = 26;
+
 	[Header("Rendered object prefab")]
 	public GameObject conwayObject;
 
@@ -33,7 +36,8 @@ public class Grid : MonoBehaviour
 	}
 
 	//	Get number of neighbors that are alive
-	private uint GetLivingNeighborsCount(uint x, uint y, uint z){
+	private uint GetLivingNeighborsCount(uint x, uint y, uint z)
+	{
 		List<GridItem> neighbors = GetNeighborsAt(x, y, z);
 		uint livingCount = 0;
 		foreach (GridItem neighbor in neighbors)
@@ -44,8 +48,15 @@ public class Grid : MonoBehaviour
 		return livingCount;
 	}
 
-	//	Get neighbors at a specific (x,y) point
-	private List<GridItem> GetNeighborsAt(uint x, uint y, uint z){
+	//	Get number of neighbors at a specific (x,y,z) point
+	private uint GetNeighborsCount(uint x, uint y, uint z)
+	{
+		return (uint)GetNeighborsAt(x, y, z).Count;
+	}
+
+	//	Get neighbors at a specific (x,y,z) point
+	private List<GridItem> GetNeighborsAt(uint x, uint y, uint z)
+	{
 		List<GridItem> neighbors = new List<GridItem> ();
 
 		//	Sanity bounds check
@@ -53,14 +64,17 @@ public class Grid : MonoBehaviour
 			return neighbors;
 		}
 
-		for( uint xCheck=x-1; xCheck<=x+1; xCheck++ )
+		for( int xCheck=(int)x-1; xCheck<=x+1; xCheck++ )
 		{
-			for( uint yCheck=y-1; yCheck<=y+1; yCheck++ )
+			for( int yCheck=(int)y-1; yCheck<=y+1; yCheck++ )
 			{
-				for( uint zCheck=z-1; zCheck<=z+1; zCheck++ )
+				for( int zCheck=(int)z-1; zCheck<=z+1; zCheck++ )
 				{
-					if (IsPointInBounds(xCheck, yCheck, zCheck) && (xCheck != x || yCheck != y || zCheck != z))
-						neighbors.Add(new GridItem(xCheck, yCheck, zCheck));
+					if (xCheck < 0 || yCheck < 0 || zCheck < 0)
+						continue;
+
+					if (IsPointInBounds((uint)xCheck, (uint)yCheck, (uint)zCheck) && (xCheck != x || yCheck != y || zCheck != z))
+						neighbors.Add(new GridItem((uint)xCheck, (uint)yCheck, (uint)zCheck));
 				}
 			}
 		}
@@ -133,8 +147,8 @@ public class Grid : MonoBehaviour
 	private void StepForward()
 	{
 		//	Start with a blank grid
-		gridItemsToKill = new List<GridItem> ();
-		gridItemsToLive = new List<GridItem> ();
+		gridItemsToKill = new List<GridItem>();
+		gridItemsToLive = new List<GridItem>();
 
 		for( uint z = 0; z < gridDepth; z++)
 		{
@@ -143,18 +157,32 @@ public class Grid : MonoBehaviour
 				for (uint x = 0; x < gridWidth; x++)
 				{
 					bool isAlive = grid[z, y, x];
+					uint neighborsTotal = GetNeighborsCount(x, y, z);
 					uint neighborsAlive = GetLivingNeighborsCount(x, y, z);
+
+					uint neighborLiveMin = toLiveMin;
+					uint neighborLiveMax = toLiveMax;
+					uint neighborReviveMin = toReviveMin;
+					uint neighborReviveMax = toReviveMax;
+					if (neighborsTotal < MAX_NEIGHBORS)
+					{
+						//float neighborFactor = neighborsTotal / MAX_NEIGHBORS;
+						neighborLiveMin /= 2;
+						neighborLiveMax /= 2;
+						neighborReviveMin /= 2;
+						neighborReviveMax /= 2;
+					}
+
 					if (isAlive)
 					{
-						//	TOOD: Fix sizing issue here
-						if (neighborsAlive >= toLiveMin && neighborsAlive <= toLiveMax)
+						if (neighborsAlive >= neighborLiveMin && neighborsAlive <= neighborLiveMax)
 							gridItemsToLive.Add(new GridItem(x, y, z));
 						else
 							gridItemsToKill.Add(new GridItem(x, y, z));
 					}
 					else
 					{
-						if (neighborsAlive >= toReviveMin && neighborsAlive <= toReviveMax)
+						if (neighborsAlive >= neighborReviveMin && neighborsAlive <= neighborReviveMax)
 							gridItemsToLive.Add(new GridItem(x, y, z));
 						else
 							gridItemsToKill.Add(new GridItem(x, y, z));
